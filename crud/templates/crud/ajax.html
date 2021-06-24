@@ -1,0 +1,116 @@
+<script>
+
+//email validation
+function ValidateEmail(mail) 
+{
+ if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail))
+  {
+    return (true)
+  }
+    return (false)
+}
+//save button code
+document.getElementById("btnsave").addEventListener('click',()=>{
+    output=""
+    let uid=document.getElementById("userid").value;
+    let name1=document.getElementById("nameid").value;
+    let email=document.getElementById("emailid").value;
+    let password=document.getElementById("passwordid").value;
+    let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value
+    if (!name1 || !email || !password){
+        alert("All Fields needs to be filled");
+    }
+    else if(!ValidateEmail(email)){
+        alert("Incorrect Email");
+    }
+    else if (name1.length<3){
+        alert("Name can't be too short ");
+    }
+    else if (password.length<8){
+        alert("Password must be 8 characters long");
+    }
+    else if (password.length>64){
+        alert("Password can't be greater than 64 characters");
+    }
+    else{
+        mydata={uid:uid,name:name1,email:email,password:password,csrfmiddlewaretoken:csrf}
+        $.ajax({
+            url:"{% url 'save' %}",
+            method:"POST",
+            data:mydata,
+            success:function(data){
+                if (data.status==="save"){
+                    x=data.user_data
+                    
+                    for(i=0;i<x.length;i++){
+                        output+="<tr><td>"+x[i].id+"</td><td>"+x[i].name+
+                        "</td><td>"+x[i].email+"</td><td>"+x[i].password+
+                        "</td><td> <input type='button' class='btn btn-warning btn-sm edit-button' value='Edit' data-sid="
+                        +x[i].id+ ">"+"\n<input type='button' class='btn btn-danger btn-sm delete-button' value='Delete' data-sid="
+                        +x[i].id+ "></td>"
+                        document.getElementById("tbody").innerHTML=output
+                    }
+                    form=document.getElementsByTagName("form")[0].reset();
+                    document.getElementById("userid").value=""
+                    $("#error").hide()
+                    $("#message").text("Form Submitted Successfully")
+                    $("#message").show()
+                    
+                }
+                else{
+                    form=document.getElementsByTagName("form")[0].reset();
+                    document.getElementById("userid").value=""
+                    $("#message").hide()
+                    $("#error").text("Some Error Occured")
+                    $("#error").show()
+                }
+            },
+        });
+    }  
+});
+
+//delete button code
+$("tbody").on("click",".delete-button",function(){
+    let id=$(this).attr("data-sid");
+    let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value
+    mydata={sid:id,csrfmiddlewaretoken:csrf}
+    this1=this
+    $.ajax({
+        url:"{% url 'delete' %}",
+        method:"POST",
+        data:mydata,
+        success:function(data){
+            if (data.status==="delete"){
+                $("#error").hide()
+                $("#message").text("Data Deleted Successfully")
+                $("#message").show()
+                $(this1).closest("tr").fadeOut();
+            }
+            else{
+                $("#message").hide()
+                $("#error").text("Some Error Occured while deleting")
+                $("#error").show()
+            }
+        }
+    })
+});
+//edit button code
+$("tbody").on("click",".edit-button",function(){
+    let id=$(this).attr("data-sid");
+    let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value
+    mydata={sid:id,csrfmiddlewaretoken:csrf}
+    $.ajax({
+        url:"{% url 'edit' %}",
+        method:"POST",
+        data:mydata,
+        success:function(data){
+            document.getElementById("userid").value=data.id
+            document.getElementById("nameid").value=data.name;
+            document.getElementById("emailid").value=data.email;
+            document.getElementById("passwordid").value=data.password;
+        }
+    })
+});
+
+
+</script>
