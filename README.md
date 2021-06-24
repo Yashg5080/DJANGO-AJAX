@@ -1,4 +1,4 @@
-# DJANGO-AJAX
+# CRUD USING DJANGO-AJAX
 In this project I have implemented CRUD(Create,Read, Update,Delete) operations using Django with Ajax.
 Clone this repository using this command:-<br />
 ```git clone git@github.com:Yashg5080/DJANGO-AJAX.git```<br />
@@ -10,7 +10,7 @@ Now open your shell inside DJANGO-AJAX folder where manage.py file is present. F
 ```python manage.py makemigrations ``` and then<br/> 
 ```python manage.py migrate```<br/><br/>
 Now the project is ready to be executed. Run below command to start th server<br/>
-```python manage.py runserver```<br/>
+```python manage.py runserver```<br/><br/>
 As you execute this command, [http://127.0.0.1:8000/](http://127.0.0.1:8000/) this link will be shown. Just copy paste in browser window. You will see the screen as shown below:-<br/>
 [![homepage.png](https://i.postimg.cc/Nj6Ksy0H/homepage.png)](https://postimg.cc/jDjxvSPx)<br/>
 Now you can do Create,Read, Update,Delete on just button clicks. After adding some data page will look like this<br/>
