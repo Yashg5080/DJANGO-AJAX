@@ -12,6 +12,6 @@ Now open your shell inside DJANGO-AJAX folder where manage.py file is present. F
 Now the project is ready to be executed. Run below command to start th server<br/>
 ```python manage.py runserver```<br/>
 As you execute this command, [http://127.0.0.1:8000/](http://127.0.0.1:8000/) this link will be shown. Just copy paste in browser window. You will see the screen as shown below:-<br/>
-![homepage](https://ibb.co/YNpmfXd)<br/>
+[![homepage.png](https://i.postimg.cc/Nj6Ksy0H/homepage.png)](https://postimg.cc/jDjxvSPx)<br/>
 Now you can do Create,Read, Update,Delete on just button clicks
 
